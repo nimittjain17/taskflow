@@ -11,11 +11,15 @@
     <h1>📋 TaskFlow — {{ user.username }}</h1>
 
     <div>
-        <button id="theme-btn" type="button">🌙 Dark mode</button>
+        <button id="theme-btn" type="button">
+            🌙 Dark mode
+        </button>
 
         <form method="post" action="{% url 'logout' %}" style="display:contents">
             {% csrf_token %}
-            <button type="submit" class="btn">Log out</button>
+            <button type="submit" class="btn">
+                Log out
+            </button>
         </form>
     </div>
 </header>
@@ -39,7 +43,9 @@
 
     <input type="date" name="due_date">
 
-    <button type="submit" class="btn">Add</button>
+    <button type="submit" class="btn">
+        Add
+    </button>
 </form>
 
 <ul id="task-list">
@@ -70,7 +76,9 @@
 
         <form method="post" action="{% url 'delete_task' task.id %}" style="display:contents">
             {% csrf_token %}
-            <button type="submit" class="delete-btn">✕</button>
+            <button type="submit" class="delete-btn">
+                ✕
+            </button>
         </form>
 
     </li>
@@ -81,6 +89,34 @@
     </li>
     {% endfor %}
 </ul>
+
+<script>
+const themeBtn = document.getElementById("theme-btn");
+
+function applyTheme(theme) {
+    document.documentElement.dataset.theme = theme;
+
+    themeBtn.textContent =
+        theme === "dark"
+            ? "☀️ Light mode"
+            : "🌙 Dark mode";
+
+    localStorage.setItem("taskflow.theme", theme);
+}
+
+themeBtn.addEventListener("click", () => {
+    const next =
+        document.documentElement.dataset.theme === "dark"
+            ? "light"
+            : "dark";
+
+    applyTheme(next);
+});
+
+applyTheme(
+    localStorage.getItem("taskflow.theme") || "light"
+);
+</script>
 
 </body>
 </html>
